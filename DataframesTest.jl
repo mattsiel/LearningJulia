@@ -2,12 +2,10 @@ using DataFrames
 using CSV
 using Plots
 
-
 # DataFrames functions and analysis
 df = DataFrame(A=1:3, B=5:7, fixed=1)
 
 show(df, allrows=true)
-
 
 # Plots functions and analysis
 x = range(0, 10, length=100)
@@ -80,3 +78,52 @@ swirls = @animate for i in range(0, stop = 2π, length = n)
     plot!(p[3], zs, alpha = 0.2, palette = cgrad(:blues).colors)
 end
 gif(swirls, "Gifs/swirls.gif", fps = 30)     # saves the CURRENT_PLOT as a .png
+
+ 
+# # Creating DataFrame
+# ab = DataFrame(Name = ["AKANKSHA", "TANYA", "PREETIKA", "VRINDA", "JAHNVI"],
+#                Age = [42, 44, 22, 81, 93],
+#                Salary = [540000, 650000, 900000, 770000, 850000],
+#          RESIDENCE=["DELHI", "DELHI", "UP", "HARYANA", "UP"]
+#                ) 
+ 
+# # modifying the content of myfile.csv using write method
+# CSV.write("myfile.csv", ab)
+
+
+# new file created
+touch("newfile.csv")
+ 
+# file handling in write mode
+efg = open("newfile.csv", "w")
+ 
+# Creating a new dataframe
+mn = DataFrame(Name = ["AKANKSHA", "TANYA", "PREETIKA", "VRINDA", "JAHNVI"],
+               Age = [42, 44, 22, 81, 93],
+               Salary = [540000, 650000, 900000, 770000, 850000],
+         RESIDENCE=["DELHI", "DELHI", "UP", "HARYANA", "UP"]
+               )
+                
+# writing to the newly created file
+CSV.write("newfile.csv", mn)
+
+# Format
+# CSV.File(filename;drop=["colulm1", "column2"....., column n])
+ 
+# dropping "RESIDENCE" column from our file (newfile.csv")
+CSV.File("newfile.csv"; drop=["RESIDENCE"])
+
+# Format for select command
+# CSV.File(file; select=[column1, column2])
+ 
+# Select the columns 'Name and Salary'
+CSV.File("newfile.csv"; select=["Name", "Salary"])
+ 
+# Selecting columns number wise
+# selecting column 1 and 3
+CSV.File("newfile.csv"; select=(i, nm) -> i in (1, 3))
+ 
+# selecting column 1, 2, 3
+CSV.File("newfile.csv"; select=(i, nm) -> i in (1, 2, 3))
+
+# file = CSV.read("myfile.csv", DataFrames)
